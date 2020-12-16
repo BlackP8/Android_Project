@@ -44,19 +44,29 @@
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"/>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@android:color/white">
             <EditText
-                android:id="@+id/password_reg"
+                android:id="@+id/pin_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="@string/prompt_password"
                 android:drawableLeft="@drawable/password"
                 android:drawablePadding="5dp"
-                android:inputType="textEmailAddress"
+                android:inputType="phone|numberPassword"
+                android:maxLength="4"
                 android:background="@drawable/edittext_background"
                 android:padding="15dp"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
             <Button
                 android:id="@+id/btn_reg"
                 android:layout_width="match_parent"

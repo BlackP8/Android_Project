@@ -2,8 +2,8 @@ package com.example.demo1.Controller.LoginRegistration;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.demo1.Model.Data.DbOperations;
+import com.example.demo1.Model.Database.DbOperations;
 import com.example.demo1.R;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -25,6 +25,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextView register_alr;
 
     private DbOperations dbOperations;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +33,14 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         dbOperations = new DbOperations(getApplicationContext());
         dbOperations.openDb();
+        preferences = getSharedPreferences("Userinfo", MODE_PRIVATE);
         registration();
     }
 
     //Регистрация пользователя
     private void registration () {
         email_reg = findViewById(R.id.username_reg);
-        password_reg = findViewById(R.id.password_reg);
+        password_reg = findViewById(R.id.pin_reg);
         btnReg = findViewById(R.id.btn_reg);
         register_alr = findViewById(R.id.alr_acc);
 
@@ -78,6 +80,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (!check_email) {
                     boolean insert_user = dbOperations.insertUser(email, password);
                     if (insert_user == false) {
+                        SharedPreferences.Editor ed = preferences.edit();
+                        ed.putString("Login", email);
+                        ed.putString("Pin", password);
                         Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
                     }
                 }

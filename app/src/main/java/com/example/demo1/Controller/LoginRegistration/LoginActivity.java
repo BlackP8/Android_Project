@@ -3,29 +3,34 @@ package com.example.demo1.Controller.LoginRegistration;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.demo1.Model.Data.DbOperations;
+import com.example.demo1.Model.Database.DbOperations;
 import com.example.demo1.R;
 
 public class LoginActivity extends AppCompatActivity {
 
     //Поля входа
-    private EditText email_log;
     private EditText password_log;
     private Button btnLog;
+    private String password;
 
     //Текстовые поля
     private TextView forget_pass;
     private TextView register_here;
 
     private DbOperations dbOperations;
+
+    private SharedPreferences preferences;
+    final String emptyPin = "empty pin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,19 +43,13 @@ public class LoginActivity extends AppCompatActivity {
 
     //Ввод данных пользователя для входа
     private void login() {
-        email_log = findViewById(R.id.username_log);
-        password_log = findViewById(R.id.password_log);
+        password_log = findViewById(R.id.pin_code);
+
         btnLog = findViewById(R.id.log_in);
         forget_pass = findViewById(R.id.forgot_password);
         register_here = findViewById(R.id.register_here);
 
-        email_log.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-               if (hasFocus) email_log.setHint("");
-               else email_log.setHint("Email");
-            }
-        });
+        loadPin();
 
         password_log.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -60,29 +59,27 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
         //Обработка кнопки вход
         btnLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = email_log.getText().toString().trim();
-                String password = password_log.getText().toString().trim();
+                password = password_log.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)) {
-                    email_log.setError("Введите email!");
-                    return;
-                }
+
                 if (TextUtils.isEmpty(password)) {
                     password_log.setError("Введите пароль!");
                     return;
                 }
 
-                boolean check_user = dbOperations.checkUser(email, password);
+                boolean check_user = dbOperations.checkUser(password);
                 if (check_user == true) {
                     Toast.makeText(getApplicationContext(), "Authorization successful", Toast.LENGTH_SHORT).show();
+                    savePin();
                     startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 }
                 else if (!check_user) {
-                    Toast.makeText(getApplicationContext(), "Wrong email or password. Please, try again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Wrong pin-code. Please, try again.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -102,5 +99,36 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ResetPassActivity.class));
             }
         });
+    }
+
+    //Зашифровываем
+    private String encrypt(String crypt_pin) {
+        return Base64.encodeToString(crypt_pin.getBytes(), Base64.DEFAULT);
+    }
+
+    //Дешифровываем
+    private String decrypt(String crypt_pin) {
+        return new String(Base64.decode(crypt_pin, Base64.DEFAULT));
+    }
+
+    //Сохраняем пин в SharedPreferences
+    private void savePin() {
+        //Задаем имя файла хранения и приоритет доступа
+        preferences = getSharedPreferences("Pin", MODE_PRIVATE);
+        SharedPreferences.Editor ed = preferences.edit();
+
+        //Записываем значение из текстового поля
+        ed.putString(encrypt(emptyPin), encrypt(password_log.getText().toString()));
+
+        //Уведомляем об изменениях
+        ed.apply();
+    }
+
+    private void loadPin() {
+        preferences = getSharedPreferences("Pin", MODE_PRIVATE);
+
+        //Извлекаем значение
+        String savedPin = preferences.getString(decrypt(emptyPin), "");
+        password_log.setText(savedPin);
     }
 }

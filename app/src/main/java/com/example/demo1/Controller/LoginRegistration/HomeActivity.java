@@ -14,9 +14,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.example.demo1.Model.DashboardFragment;
-import com.example.demo1.Model.ExpenseFragment;
-import com.example.demo1.Model.IncomeFragment;
+import com.example.demo1.Controller.LoginRegistration.Fragments.DashboardFragment;
+import com.example.demo1.Controller.LoginRegistration.Fragments.ExpenseFragment;
+import com.example.demo1.Controller.LoginRegistration.Fragments.IncomeFragment;
 import com.example.demo1.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;

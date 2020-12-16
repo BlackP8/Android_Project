@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -43,33 +44,53 @@
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"/>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@android:color/white">
             <EditText
-                android:id="@+id/new_password"
+                android:id="@+id/new_pin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="@string/New_password"
                 android:drawableLeft="@drawable/password"
                 android:drawablePadding="5dp"
-                android:inputType="textEmailAddress"
+                android:inputType="phone|numberPassword"
+                android:maxLength="4"
                 android:background="@drawable/edittext_background"
                 android:padding="15dp"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@android:color/white">
             <EditText
-            android:id="@+id/new_password_repeat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:hint="@string/New_password_repeat"
+                android:id="@+id/new_pin_repeat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="@string/New_password_repeat"
                 android:drawableLeft="@drawable/password"
                 android:drawablePadding="5dp"
-            android:inputType="textEmailAddress"
-            android:background="@drawable/edittext_background"
-            android:padding="15dp"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white" />
+                android:inputType="phone|numberPassword"
+                android:maxLength="4"
+                android:background="@drawable/edittext_background"
+                android:padding="15dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white" />
+        </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btn_reset"

@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.demo1.Model.Data.DbOperations;
+import com.example.demo1.Model.Database.DbOperations;
 import com.example.demo1.R;
 
 public class ResetPassActivity extends AppCompatActivity {
@@ -29,8 +29,8 @@ public class ResetPassActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reset_pass);
 
         email_res = findViewById(R.id.email_res);
-        new_pass = findViewById(R.id.new_password);
-        repeat_pass = findViewById(R.id.new_password_repeat);
+        new_pass = findViewById(R.id.new_pin);
+        repeat_pass = findViewById(R.id.new_pin_repeat);
         reset = findViewById(R.id.btn_reset);
         next = findViewById(R.id.alr_acc);
 
