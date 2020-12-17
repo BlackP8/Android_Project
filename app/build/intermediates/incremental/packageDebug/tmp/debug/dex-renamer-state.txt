@@ -1,4 +1,4 @@
-#Wed Dec 16 20:54:50 IRKT 2020
+#Thu Dec 17 22:08:41 IRKT 2020
 base.0=D\:\\Android\\Demo1-master\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

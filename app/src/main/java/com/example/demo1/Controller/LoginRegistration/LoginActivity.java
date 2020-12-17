@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
@@ -15,6 +16,12 @@ import android.widget.Toast;
 
 import com.example.demo1.Model.Database.DbOperations;
 import com.example.demo1.R;
+
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -30,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private DbOperations dbOperations;
 
     private SharedPreferences preferences;
-    final String emptyPin = "empty pin";
+    private final String emptyPin = "pin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
     //Зашифровываем
     private String encrypt(String crypt_pin) {
         return Base64.encodeToString(crypt_pin.getBytes(), Base64.DEFAULT);
@@ -118,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor ed = preferences.edit();
 
         //Записываем значение из текстового поля
-        ed.putString(encrypt(emptyPin), encrypt(password_log.getText().toString()));
+        ed.putString(emptyPin, encrypt(password_log.getText().toString()));
 
         //Уведомляем об изменениях
         ed.apply();
@@ -128,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
         preferences = getSharedPreferences("Pin", MODE_PRIVATE);
 
         //Извлекаем значение
-        String savedPin = preferences.getString(decrypt(emptyPin), "");
-        password_log.setText(savedPin);
+        String savedPin = preferences.getString(emptyPin, "");
+        password_log.setText(decrypt(savedPin));
     }
 }
